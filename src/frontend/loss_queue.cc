@@ -44,11 +44,11 @@ EveryNDrop::EveryNDrop( const int every_n )
 bool EveryNDrop::drop_packet( const string & packet __attribute((unused)) )
 {
     rolling_counter_ += 1;
-    if ( rolling_counter_ >= every_n_ ) {
+    if ( (every_n_ > 0) and (rolling_counter_ >= every_n_) ) {
         rolling_counter_ = 0;
-        return false;
-    } else {
         return true;
+    } else {
+        return false;
     }
 }
 

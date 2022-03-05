@@ -32,10 +32,10 @@ int main( int argc, char *argv[] )
         }
 
         const double every_n = myatof( argv[ 2 ] );
-        if ( 1 <= every_n ) {
+        if ( 0 <= every_n ) {
             /* do nothing */
         } else {
-            cerr << "Error: every N: N must be larger than 0." << endl;
+            cerr << "Error: every N: N must be non-negative." << endl;
             usage( argv[ 0 ] );
         }
 
