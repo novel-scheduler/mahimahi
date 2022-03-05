@@ -36,6 +36,22 @@ bool IIDLoss::drop_packet( const string & packet __attribute((unused)) )
     return drop_dist_( prng_ );
 }
 
+EveryNDrop::EveryNDrop( const int every_n )
+        : every_n_(every_n),
+          rolling_counter_(0)
+{}
+
+bool EveryNDrop::drop_packet( const string & packet __attribute((unused)) )
+{
+    rolling_counter_ += 1;
+    if ( rolling_counter_ >= every_n_ ) {
+        rolling_counter_ = 0;
+        return false;
+    } else {
+        return true;
+    }
+}
+
 static const double MS_PER_SECOND = 1000.0;
 
 SwitchingLink::SwitchingLink( const double mean_on_time, const double mean_off_time )

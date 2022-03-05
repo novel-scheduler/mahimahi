@@ -46,6 +46,18 @@ public:
     IIDLoss( const double loss_rate ) : drop_dist_( loss_rate ) {}
 };
 
+class EveryNDrop : public LossQueue
+{
+private:
+    int every_n_;
+    int rolling_counter_;
+
+    bool drop_packet( const std::string & packet ) override;
+
+public:
+    EveryNDrop( const int every_n );
+};
+
 class SwitchingLink : public LossQueue
 {
 private:
