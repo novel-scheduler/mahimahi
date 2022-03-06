@@ -70,6 +70,17 @@ void EveryNCorrupt::write_packets( FileDescriptor & fd )
 {
     while ( not packet_queue_.empty() ) {
         std::string packet = packet_queue_.front();
+        if ( ( every_n_ > 0 ) and ( rolling_counter_ == 0 ) ) {
+            /* corrupt the packet */
+            if ( packet.length() > 4 ) {
+                /* Need at least 4 bytes to corrupt */
+                int last_index  = packet.length() - 1;
+                int penul_index = last_index - 2;
+                packet[last_index] -= 1;
+                if ( chk_ok_ ) // corrupt but preserve chksum
+                    packet[penul_index] += 1;
+            }
+        }
         fd.write( packet );
         packet_queue_.pop();
     }
