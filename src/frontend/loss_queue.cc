@@ -52,6 +52,29 @@ bool EveryNDrop::drop_packet( const string & packet __attribute((unused)) )
     }
 }
 
+EveryNCorrupt::EveryNCorrupt( const int every_n, const bool chk_ok )
+        : every_n_(every_n),
+          chk_ok_(chk_ok),
+          rolling_counter_(0),
+{}
+
+bool EveryNCorrupt::drop_packet( const string & packet __attribute((unused)) )
+{
+    rolling_counter_ += 1;
+    if ( ( every_n_ > 0) and (rolling_counter_ >= every_n_ ) )
+        rolling_counter_ = 0;
+    return false;
+}
+
+void EveryNCorrupt::write_packets( FileDescriptor & fd )
+{
+    while ( not packet_queue_.empty() ) {
+        std::string packet = packet_queue_.front();
+        fd.write( packet );
+        packet_queue_.pop();
+    }
+}
+
 static const double MS_PER_SECOND = 1000.0;
 
 SwitchingLink::SwitchingLink( const double mean_on_time, const double mean_off_time )

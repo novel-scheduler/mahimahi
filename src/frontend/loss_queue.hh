@@ -58,6 +58,21 @@ public:
     EveryNDrop( const int every_n );
 };
 
+class EveryNCorrupt : public LossQueue
+{
+private:
+    int every_n_;
+    bool chk_ok_;
+    int rolling_counter_;
+
+    bool drop_packet( const std::string & packet ) override;
+
+public:
+    EveryNCorrupt( const int every_n, const bool chk_ok );
+
+    void write_packets( FileDescriptor & fd ) override;
+};
+
 class SwitchingLink : public LossQueue
 {
 private:
