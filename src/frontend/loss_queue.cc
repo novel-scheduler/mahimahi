@@ -55,7 +55,7 @@ bool EveryNDrop::drop_packet( const string & packet __attribute((unused)) )
 EveryNCorrupt::EveryNCorrupt( const int every_n, const bool chk_ok )
         : every_n_(every_n),
           chk_ok_(chk_ok),
-          rolling_counter_(0),
+          rolling_counter_(0)
 {}
 
 bool EveryNCorrupt::drop_packet( const string & packet __attribute((unused)) )

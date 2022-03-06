@@ -13,11 +13,11 @@
 class LossQueue
 {
 private:
-    std::queue<std::string> packet_queue_ {};
-
     virtual bool drop_packet( const std::string & packet ) = 0;
 
 protected:
+    std::queue<std::string> packet_queue_ {};
+
     std::default_random_engine prng_;
 
 public:
@@ -70,7 +70,7 @@ private:
 public:
     EveryNCorrupt( const int every_n, const bool chk_ok );
 
-    void write_packets( FileDescriptor & fd ) override;
+    void write_packets( FileDescriptor & fd );
 };
 
 class SwitchingLink : public LossQueue
