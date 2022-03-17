@@ -30,7 +30,7 @@ On a fresh Ubuntu 20.04 LTS install (kernel
 sudo apt install libprotobuf-dev autotools-dev dh-autoreconf \
   iptables pkg-config dnsmasq-base apache2-bin debhelper \
   libssl-dev ssl-cert libcairo2-dev libpango1.0-dev \
-  libxcb1-dev protobuf-compiler apache2-dev
+  libxcb1-dev protobuf-compiler apache2-dev libxcb-present-dev
 ```
 
 The full list of dependencies is available at
