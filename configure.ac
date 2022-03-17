@@ -12,7 +12,11 @@ AC_CONFIG_MACRO_DIR([m4])
 
 # Add picky CXXFLAGS
 CXX11_FLAGS="-std=c++11 -pthread"
-PICKY_CXXFLAGS="-pedantic -Wall -Wextra -Weffc++ -Werror"
+# 2022/03/16: 
+# Remove Werror from CFLAGS to prevent string_fortified.h
+# string library warning from turning into a compiler error.
+# PICKY_CXXFLAGS="-pedantic -Wall -Wextra -Weffc++ -Werror"
+PICKY_CXXFLAGS="-pedantic -Wall -Wextra -Weffc++"
 AC_SUBST([CXX11_FLAGS])
 AC_SUBST([PICKY_CXXFLAGS])
 
