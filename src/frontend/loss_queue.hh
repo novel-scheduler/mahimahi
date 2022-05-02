@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <string>
 #include <random>
+#include <fstream>
 
 #include "file_descriptor.hh"
 
@@ -56,6 +57,17 @@ private:
 
 public:
     EveryNDrop( const int every_n );
+};
+
+class TraceDrop : public LossQueue
+{
+private:
+    std::ifstream trace_;
+
+    bool drop_packet( const std::string & packet ) override;
+
+public:
+    TraceDrop( const std::string & trace_file );
 };
 
 class EveryNCorrupt : public LossQueue
