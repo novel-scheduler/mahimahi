@@ -53,21 +53,19 @@ bool EveryNDrop::drop_packet( const string & packet __attribute((unused)) )
     }
 }
 
-TraceDrop::TraceDrop( const string & trace_file )
-        : trace_(std::ifstream(trace_file))
-{
-    trace_.seekg(0, trace_.beg);
-}
+TraceDrop::TraceDrop( const vector<bool> & trace_file )
+        : trace_(trace_file),
+          it_(trace_.begin())
+{}
 
 bool TraceDrop::drop_packet( const string & packet __attribute((unused)) )
 {
-    int flag = trace_.get();
-    if(flag == std::char_traits<char>::eof()){
-        trace_.seekg(0, trace_.beg);
-        flag = trace_.get();
+    if(it_ == trace_.end()){
+        it_ = trace_.begin();
     }
-    trace_.get(); // skip newline char
-    return flag == '1' ? true : false;
+    bool flag = *it_;
+    it_++;
+    return flag;
 }
 
 EveryNCorrupt::EveryNCorrupt( const int every_n, const bool chk_ok )

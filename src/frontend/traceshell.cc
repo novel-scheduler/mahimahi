@@ -32,11 +32,21 @@ int main( int argc, char *argv[] )
             usage( argv[ 0 ] );
         }
 
+        vector<bool> trace;
         ifstream trace_file( argv[ 2 ] );
         if ( trace_file.is_open() == false ) {
             cerr << "Error: Unable to open the trace file." << endl;
             usage( argv[ 0 ] );
         }
+        while(!trace_file.eof()){
+            char c = trace_file.get();
+            if(c == std::char_traits<char>::eof()){
+                break;
+            }
+            trace.push_back(c == '1' ? true : false);
+            trace_file.get(); // ignore newlines
+        }
+        trace_file.close();
 
         string uplink_loss = "";
         string downlink_loss = "";
@@ -60,9 +70,9 @@ int main( int argc, char *argv[] )
             }
         }
 
-        PacketShell<TraceDrop> drop_app( "drop", user_environment );
+        PacketShell<TraceDrop> trace_app( "trace", user_environment );
 
-        string shell_prefix = "[drop ";
+        string shell_prefix = "[trace ";
         if ( link == "uplink" ) {
             shell_prefix += "up=";
         } else {
@@ -71,11 +81,10 @@ int main( int argc, char *argv[] )
         shell_prefix += argv[ 2 ];
         shell_prefix += "] ";
 
-        drop_app.start_uplink( shell_prefix,
-                               command,
-                               uplink_loss );
-        drop_app.start_downlink( downlink_loss );
-        return drop_app.wait_for_exit();
+        trace_app.start_uplink( shell_prefix, command,
+                               trace );
+        trace_app.start_downlink( trace );
+        return trace_app.wait_for_exit();
     } catch ( const exception & e ) {
         print_exception( e );
         return EXIT_FAILURE;

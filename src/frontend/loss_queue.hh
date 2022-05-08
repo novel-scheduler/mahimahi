@@ -62,12 +62,13 @@ public:
 class TraceDrop : public LossQueue
 {
 private:
-    std::ifstream trace_;
+    std::vector<bool> trace_;
+    std::vector<bool>::iterator it_;
 
     bool drop_packet( const std::string & packet ) override;
 
 public:
-    TraceDrop( const std::string & trace_file );
+    TraceDrop( const std::vector<bool> & trace_file );
 };
 
 class EveryNCorrupt : public LossQueue
