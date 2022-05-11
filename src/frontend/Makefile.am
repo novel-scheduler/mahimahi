@@ -16,6 +16,11 @@ mm_drop_SOURCES = dropshell.cc loss_queue.hh loss_queue.cc
 mm_drop_LDADD = -lrt ../util/libutil.a ../packet/libpacket.a
 mm_drop_LDFLAGS = -pthread
 
+bin_PROGRAMS += mm-trace
+mm_trace_SOURCES = traceshell.cc loss_queue.hh loss_queue.cc
+mm_trace_LDADD = -lrt ../util/libutil.a ../packet/libpacket.a
+mm_trace_LDFLAGS = -pthread
+
 bin_PROGRAMS += mm-corrupt
 mm_corrupt_SOURCES = corruptshell.cc loss_queue.hh loss_queue.cc
 mm_corrupt_LDADD = -lrt ../util/libutil.a ../packet/libpacket.a
@@ -63,6 +68,8 @@ install-exec-hook:
 	chmod u+s $(DESTDIR)$(bindir)/mm-loss
 	chown root $(DESTSIR)$(bindir)/mm-drop
 	chmod u+s $(DESTSIR)$(bindir)/mm-drop
+	chown root $(DESTSIR)$(bindir)/mm-trace
+	chmod u+s $(DESTSIR)$(bindir)/mm-trace
 	chown root $(DESTSIR)$(bindir)/mm-corrupt
 	chmod u+s $(DESTSIR)$(bindir)/mm-corrupt
 	chown root $(DESTDIR)$(bindir)/mm-onoff

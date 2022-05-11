@@ -1,6 +1,7 @@
 /* -*-mode:c++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 
 #include <limits>
+#include <fstream>
 
 #include "loss_queue.hh"
 #include "timestamp.hh"
@@ -50,6 +51,21 @@ bool EveryNDrop::drop_packet( const string & packet __attribute((unused)) )
     } else {
         return false;
     }
+}
+
+TraceDrop::TraceDrop( const vector<bool> & trace_file )
+        : trace_(trace_file),
+          it_(trace_.begin())
+{}
+
+bool TraceDrop::drop_packet( const string & packet __attribute((unused)) )
+{
+    if(it_ == trace_.end()){
+        it_ = trace_.begin();
+    }
+    bool flag = *it_;
+    it_++;
+    return flag;
 }
 
 EveryNCorrupt::EveryNCorrupt( const int every_n, const bool chk_ok )
